@@ -2,7 +2,7 @@
 
 This mobile application loads data about Marvel Characters and their description, image etc. using Official Marvel API  https://developer.marvel.com/
 
-# Libraries which i loaded using Nuget
+# External libraries which i loaded using Nuget
 
 Newtonsoft.json - this library needed to Deserialize data which i received using Marvel Api
 
