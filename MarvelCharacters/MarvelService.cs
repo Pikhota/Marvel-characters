@@ -1,10 +1,6 @@
 ﻿using MarvelCharacters.Models;
 using Newtonsoft.Json;
-using Plugin.Connectivity;
-using Plugin.Connectivity.Abstractions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
@@ -21,16 +17,15 @@ namespace MarvelCharacters
 		private const string _charactersRequest = "/v1/public/characters?";
 		private const string _ts = "23";
 
-		public MarvelService()
-		{
-			CrossConnectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
-		}
+		public MarvelService() { }
+
 		public async Task<RootObject> GetDataAsync()
 		{
 			using (HttpClient client = InitialClient())
 			{
-				string _hash = $"hash={GenerateHash(_ts, _privateApiKey, _publicApiKey)}";
-				string requestUri = $"{_charactersRequest}ts={_ts}&apikey={_publicApiKey}&{_hash}";
+				string generatedHashKey = GenerateHash(_ts, _privateApiKey, _publicApiKey);
+				string hash = $"hash={generatedHashKey}";
+				string requestUri = $"{_charactersRequest}ts={_ts}&apikey={_publicApiKey}&{hash}";
 
 				using (HttpResponseMessage response = client.GetAsync(requestUri).Result)
 				{
@@ -48,16 +43,16 @@ namespace MarvelCharacters
 			}
 		}
 
-		public static string GenerateHash(string ts, string privateKey, string publicKey)
+		private string GenerateHash(string ts, string privateKey, string publicKey)
 		{
 		    string key = ts + privateKey + publicKey; 
 			MD5 md5 = MD5.Create();
-			byte[] hash = md5.ComputeHash(Encoding.ASCII.GetBytes(key));
-
+			byte[] hashBytes = md5.ComputeHash(Encoding.ASCII.GetBytes(key));
 			StringBuilder sb = new StringBuilder();
-			foreach(var item in hash)
+
+			foreach(var hashByte in hashBytes)
 			{
-				sb.Append(item.ToString("x2"));
+				sb.Append(hashByte.ToString("x2"));
 			}
 
 			return sb.ToString(); ;
@@ -69,30 +64,11 @@ namespace MarvelCharacters
 			{
 				BaseAddress = new Uri(_url),
 			};
+
 			client.DefaultRequestHeaders.Accept.Clear();
 			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
 			return client;
-		}
-
-		private void Current_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
-		{
-			CheckConnection();
-		}
-
-		public string CheckConnection()
-		{
-			string failedConnection = "Connection failed";
-			if (CrossConnectivity.Current != null 
-				&& CrossConnectivity.Current.ConnectionTypes != null 
-				&& CrossConnectivity.Current.IsConnected == true)
-			{
-				var connectionType = CrossConnectivity.Current.ConnectionTypes.FirstOrDefault();
-				return connectionType.ToString();
-			}
-			else
-			{
-				return failedConnection;
-			}
 		}
 	}
 }

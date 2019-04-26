@@ -4,52 +4,44 @@ using System.Threading.Tasks;
 
 namespace MarvelCharacters.ViewModels
 {
-	public class MainViewModel : ViewModelBase
+	public class MainViewModel
 	{
+		public string ConnectionState { get; set; }
+		public List<Character> Characters { get; set; }
+		public string AttributeText { get; set; }
+		private Task<RootObject> RootObject { get; set; }
+		private readonly MarvelService _marvelService = new MarvelService();
+		private readonly ConnectionService _connectionService = new ConnectionService();
+
 		public MainViewModel()
 		{
-			RootObject = _marvelService.GetDataAsync();
-			Characters = GetCharacters(RootObject);
-			_connectionState = _marvelService.CheckConnection();
-			_attributeText = RootObject.Result.AttributionText;
-		}
-
-		private  string _connectionState;
-		public string ConnectionState
-		{
-			get { return _connectionState; }
-			set
+			if(ConnectionService.IsConnection())
 			{
-				_connectionState = value;
-				OnPropertyChanged();
+				RootObject = _marvelService.GetDataAsync();
+				Characters = GetCharacters(RootObject);
+				AttributeText = RootObject.Result.AttributionText;
 			}
-		}
-		private Task<RootObject> RootObject { get; set; }
 
-		private readonly MarvelService _marvelService = new MarvelService();
-		public List<Character> Characters { get; set; }
-
-		private string _attributeText;
-		public string AttributeText
-		{
-			get { return _attributeText; }
-			set
-			{
-				_attributeText = value;
-				OnPropertyChanged();
-			}
+			ConnectionState = _connectionService.CheckConnection();
 		}
-		public static List<Character> GetCharacters(Task<RootObject> data)
+
+		public  List<Character> GetCharacters(Task<RootObject> data)
 		{
 			List<Character> characters = new List<Character>();
 
-			foreach (var item in data.Result.Data.Results)
+			RootObject rootObject = data.Result;
+
+			if(rootObject != null)
 			{
-				characters.Add(new Character {
-					Name = item.Name,
-					Description = item.Description,
-					ImagePath = $"{item.Thumbnail.Path}.{item.Thumbnail.Extension}",
-				});
+				foreach (var item in rootObject.Data.Results)
+				{
+					characters.Add(new Character
+					{
+						Name = item.Name,
+						Description = string.IsNullOrWhiteSpace(item.Description) ? "No information is available on this character" : item.Description,
+						ImagePath = $"{item.Thumbnail.Path}.{item.Thumbnail.Extension}",
+					});
+				}
 			}
 
 			return characters;
