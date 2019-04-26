@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ViewModel="clr-namespace:MarvelCharacters.ViewModels"
+             x:Class="MarvelCharacters.Views.MainPage">
+
+    <ContentPage.BindingContext>
+        <ViewModel:MainViewModel/>
+    </ContentPage.BindingContext>
+
+    <StackLayout>
+        <Label x:Name="connectionState" HorizontalTextAlignment="Center" FontSize="Medium" Text="{Binding ConnectionState} " />
+        <ListView 
+            x:Name="charactersList" 
+            CachingStrategy="RecycleElement" 
+            HasUnevenRows="True" 
+            ItemsSource="{Binding Characters}"
+            ItemTapped="CharactersList_ItemTapped">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ImageCell 
+                        ImageSource="{Binding ImagePath}"
+                        Text="{Binding Name}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+
+</ContentPage>
