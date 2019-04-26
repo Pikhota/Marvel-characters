@@ -8,16 +8,11 @@ Newtonsoft.json - this library needed to Deserialize data which i received using
 
 Xam.Plugin.Connectivity - this not a necessary library for this app, however i think that if this app need access Internet , i need to show some text on the screen if connection failed.
 
-#A little bit about how i did it
+# A little bit about how i did it
 
 I used MVVM architecture because this is best of practice to create mobile and desktop apps with opportunity  to scope,  support and testing through separates the user interface from the application logic.
-
-O
-
 I also have created a class MarvelService to work with Marvel API.
 
-
-
-#Estimate
+# Estimate
 
 Include that is my first app on Xamarin and i needed to read the documentation and figure out how make navigation between page etc. The common time i spent to create this app about 8 hours
