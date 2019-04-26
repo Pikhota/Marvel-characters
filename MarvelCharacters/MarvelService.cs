@@ -25,7 +25,7 @@ namespace MarvelCharacters
 		{
 			CrossConnectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
 		}
-		public async Task<List<Result>> GetDataAsync()
+		public async Task<RootObject> GetDataAsync()
 		{
 			using (HttpClient client = InitialClient())
 			{
@@ -38,7 +38,7 @@ namespace MarvelCharacters
 					{
 						string resultResponse = await response.Content.ReadAsStringAsync();
 						RootObject root = JsonConvert.DeserializeObject<RootObject>(resultResponse);
-						return root.Data.Results;
+						return root;
 					}
 					else
 					{
@@ -81,14 +81,17 @@ namespace MarvelCharacters
 
 		public string CheckConnection()
 		{
-			if (CrossConnectivity.Current != null && CrossConnectivity.Current.ConnectionTypes != null && CrossConnectivity.Current.IsConnected == true)
+			string failedConnection = "Connection failed";
+			if (CrossConnectivity.Current != null 
+				&& CrossConnectivity.Current.ConnectionTypes != null 
+				&& CrossConnectivity.Current.IsConnected == true)
 			{
 				var connectionType = CrossConnectivity.Current.ConnectionTypes.FirstOrDefault();
 				return connectionType.ToString();
 			}
 			else
 			{
-				return !CrossConnectivity.Current.IsConnected ? "Connection failed" : string.Empty;
+				return failedConnection;
 			}
 		}
 	}

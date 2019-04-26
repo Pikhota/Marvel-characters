@@ -24,6 +24,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <Label HorizontalTextAlignment="Center"  Text="{Binding AttributeText}"/>
     </StackLayout>
 
 </ContentPage>
