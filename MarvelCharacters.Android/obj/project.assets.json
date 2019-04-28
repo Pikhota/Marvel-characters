@@ -1228,7 +1228,6 @@
   "projectFileDependencyGroups": {
     "MonoAndroid,Version=v8.1": [
       "MarvelCharacters >= 1.0.0",
-      "Newtonsoft.Json >= 12.0.2",
       "Xamarin.Android.Support.Core.Utils >= 28.0.0.1",
       "Xamarin.Android.Support.CustomTabs >= 28.0.0.1",
       "Xamarin.Android.Support.Design >= 28.0.0.1",
@@ -1282,10 +1281,6 @@
     "frameworks": {
       "monoandroid81": {
         "dependencies": {
-          "Newtonsoft.Json": {
-            "target": "Package",
-            "version": "[12.0.2, )"
-          },
           "Xamarin.Android.Support.Core.Utils": {
             "target": "Package",
             "version": "[28.0.0.1, )"
