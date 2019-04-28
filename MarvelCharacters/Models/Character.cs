@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MarvelCharacters.Models
+﻿namespace MarvelCharacters.Models
 {
 	public class Character
 	{

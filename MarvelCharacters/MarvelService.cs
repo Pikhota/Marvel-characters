@@ -9,30 +9,24 @@ using System.Threading.Tasks;
 
 namespace MarvelCharacters
 {
-	public class MarvelService
+	public static class MarvelService
 	{
 		private const string _url = "https://gateway.marvel.com";
-		private const string _publicApiKey = "ca1ce146dbac71cc415a6e5804dadbae";
-		private const string _privateApiKey = "f228bc563b74b592cabc2db4b827093d6f8369c3";
-		private const string _charactersRequest = "/v1/public/characters?";
-		private const string _ts = "23";
 
-		public MarvelService() { }
-
-		public async Task<RootObject> GetDataAsync()
+		public static async Task<MarvelData> GetDataAsync(string urlRequest, string ts, string publicApiKey, string privateApiKey)
 		{
-			using (HttpClient client = InitialClient())
+			using (HttpClient client = InitialClient(_url))
 			{
-				string generatedHashKey = GenerateHash(_ts, _privateApiKey, _publicApiKey);
+				string generatedHashKey = GenerateHash(ts, privateApiKey, publicApiKey);
 				string hash = $"hash={generatedHashKey}";
-				string requestUri = $"{_charactersRequest}ts={_ts}&apikey={_publicApiKey}&{hash}";
+				string requestUri = $"{urlRequest}ts={ts}&apikey={publicApiKey}&{hash}";
 
 				using (HttpResponseMessage response = client.GetAsync(requestUri).Result)
 				{
 					if (response.IsSuccessStatusCode)
 					{
 						string resultResponse = await response.Content.ReadAsStringAsync();
-						RootObject root = JsonConvert.DeserializeObject<RootObject>(resultResponse);
+						MarvelData root = JsonConvert.DeserializeObject<MarvelData>(resultResponse);
 						return root;
 					}
 					else
@@ -43,7 +37,7 @@ namespace MarvelCharacters
 			}
 		}
 
-		private string GenerateHash(string ts, string privateKey, string publicKey)
+		private static string GenerateHash(string ts, string privateKey, string publicKey)
 		{
 		    string key = ts + privateKey + publicKey; 
 			MD5 md5 = MD5.Create();
@@ -58,11 +52,11 @@ namespace MarvelCharacters
 			return sb.ToString(); ;
 		}
 
-		private HttpClient InitialClient()
+		private static HttpClient InitialClient(string url)
 		{
 			HttpClient client = new HttpClient()
 			{
-				BaseAddress = new Uri(_url),
+				BaseAddress = new Uri(url),
 			};
 
 			client.DefaultRequestHeaders.Accept.Clear();

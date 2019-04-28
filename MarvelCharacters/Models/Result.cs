@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace MarvelCharacters.Models
+﻿namespace MarvelCharacters.Models
 {
 	public class Result
 	{
