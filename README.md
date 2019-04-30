@@ -6,7 +6,7 @@ This mobile application loads data about Marvel Characters and their description
 
 Newtonsoft.json - this library needed to Deserialize data which i received using Marvel Api
 
-Xam.Plugin.Connectivity - this not a necessary library for this app, however i think that if this app need access Internet , i need to show some text on the screen if connection failed.
+Xam.Plugin.Connectivity - it's not a necessary library for this app, however i think that if this app need access Internet , i need to show some text on the screen if connection failed.
 
 # A little bit about how i did it
 

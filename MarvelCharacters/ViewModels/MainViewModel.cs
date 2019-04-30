@@ -14,7 +14,6 @@ namespace MarvelCharacters.ViewModels
 		private const string _privateApiKey = "f228bc563b74b592cabc2db4b827093d6f8369c3";
 		private const string _charactersRequest = "/v1/public/characters?";
 		private const string _ts = "23";
-		private static object locker = new object();
 		public MainViewModel()
 		{
 			if(ConnectionService.IsConnection())

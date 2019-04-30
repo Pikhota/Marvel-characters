@@ -10,3 +10,4 @@ D:\Xamarin\Marvel\MarvelCharacters\MarvelCharacters\obj\Debug\netstandard2.0\Mar
 D:\Xamarin\Marvel\MarvelCharacters\MarvelCharacters\obj\Debug\netstandard2.0\XamlC.stamp
 D:\Xamarin\Marvel\MarvelCharacters\MarvelCharacters\obj\Debug\netstandard2.0\Views\CharacterDetailsPage.xaml.g.cs
 D:\Xamarin\Marvel\MarvelCharacters\MarvelCharacters\obj\Debug\netstandard2.0\Views\MainPage.xaml.g.cs
+D:\Xamarin\Marvel\MarvelCharacters\MarvelCharacters\obj\Debug\netstandard2.0\MarvelCharacters.csprojAssemblyReference.cache
